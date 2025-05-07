@@ -10,18 +10,18 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 vector;
     private float applyRunSpeed;
     private int currentWalkCount;
-    private bool canMove = true;
+    public static bool canMove = true;
+
     void Start()
     {
-        IEnumerator MoveCoroutine()
-        {
-            yield return new WaitForSeconds(1f);
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!canMove)
+            return;
+
         if(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
             if(Input.GetKey(KeyCode.LeftShift))
