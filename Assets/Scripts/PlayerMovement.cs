@@ -6,14 +6,17 @@ public class PlayerMovement : MonoBehaviour
 {
     public float speed;
     public float runSpeed;
-    public int walkCount;
     private Vector3 vector;
     private float applyRunSpeed;
+    private bool applyRunFlag = false;
+    public int walkCount;
     private int currentWalkCount;
     public static bool canMove = true;
+    //private Animator animator;
 
     void Start()
     {
+        //animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -22,25 +25,24 @@ public class PlayerMovement : MonoBehaviour
         if (!canMove)
             return;
 
-        if(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+        float moveX = Input.GetAxisRaw("Horizontal");
+        float moveY = Input.GetAxisRaw("Vertical");
+
+        if (moveX != 0 || moveY != 0)
         {
-            if(Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift))
             {
                 applyRunSpeed = runSpeed;
-            } else
+            }
+            else
+            {
                 applyRunSpeed = 0;
-
-            vector.Set(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), transform.position.z);
-            if(vector.x != 0)
-            {
-                transform.Translate(vector.x * (speed + applyRunSpeed), 0, 0);
-            } else if(vector.y != 0)
-            {
-                transform.Translate(0, vector.y * (speed + applyRunSpeed), 0);
             }
 
-            currentWalkCount++;
+            vector.Set(moveX, moveY, 0);
+            vector.Normalize(); // Normalize to avoid faster diagonal movement
+
+            transform.Translate(vector * (speed + applyRunSpeed) * Time.deltaTime);
         }
-        currentWalkCount = 0;
     }
 }
