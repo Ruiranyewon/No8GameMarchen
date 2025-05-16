@@ -1,11 +1,11 @@
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 using System.Collections;
 
 public class CharacterDialogueTrigger : MonoBehaviour
 {
     public GameObject dialoguePanel; // Inspector에 UI Panel 연결
-
     public TextMeshProUGUI dialogueText;
     [TextArea(2, 5)] public string[] dialogueLines;
     public float typingSpeed = 0.05f;
@@ -13,7 +13,6 @@ public class CharacterDialogueTrigger : MonoBehaviour
     private int currentLineIndex = 0;
     private bool isTyping = false;
     private bool cancelTyping = false;
-    private bool dialogueStarted = false;
 
     void Start()
     {
@@ -21,11 +20,10 @@ public class CharacterDialogueTrigger : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && !dialogueStarted)
+        if (other.CompareTag("Player"))
         {
-            dialogueStarted = true;
             dialoguePanel.SetActive(true);
-            PlayerMovement.canMove = false;
+            PlayerMovementYW.canMove = false;
             currentLineIndex = 0;
             StartCoroutine(TypeLine());
         }
@@ -50,7 +48,7 @@ public class CharacterDialogueTrigger : MonoBehaviour
                 {
                     dialoguePanel.SetActive(false);
                     dialogueText.text = "";
-                    PlayerMovement.canMove = true;
+                    PlayerMovementYW.canMove = true;
                 }
             }
         }
