@@ -23,7 +23,7 @@ public class CharacterDialogueTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             dialoguePanel.SetActive(true);
-            PlayerMovement.canMove = false;
+            PlayerMovementYW.canMove = false;
             currentLineIndex = 0;
             StartCoroutine(TypeLine());
         }
@@ -48,7 +48,7 @@ public class CharacterDialogueTrigger : MonoBehaviour
                 {
                     dialoguePanel.SetActive(false);
                     dialogueText.text = "";
-                    PlayerMovement.canMove = true;
+                    PlayerMovementYW.canMove = true;
                 }
             }
         }
