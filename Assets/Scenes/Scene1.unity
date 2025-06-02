@@ -667,6 +667,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8537101300545020051, guid: 64a5108ecc08e458e80ec2c4ded5cdb4, type: 3}
+      propertyPath: staminaBar
+      value: 
+      objectReference: {fileID: 8741262738605213697, guid: 97ff6ff4b5a027549971edca2ab550e8, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

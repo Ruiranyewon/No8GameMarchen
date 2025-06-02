@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public float staminaRecoveryRate = 1f;
     public float staminaDrainRate = 2f;
 
-    public float exhaustedDuration = 2f; // Å»Áø Áö¼Ó ½Ã°£
+    public float exhaustedDuration = 2f; // Å»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
     private float exhaustedTimer = 0f;
     private bool isExhausted = false;
 
@@ -35,13 +35,19 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        // --- ÀÔ·Â Ã³¸® ---
-        moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        // --- ï¿½Ô·ï¿½ Ã³ï¿½ï¿½ ---
+        float inputX = Input.GetAxisRaw("Horizontal");
+        float inputY = Input.GetAxisRaw("Vertical");
+
+        if (inputX != 0 && inputY != 0)
+            inputY = 0; // Prevent diagonal movement
+
+        moveInput = new Vector2(inputX, inputY);
 
         if (moveInput.sqrMagnitude > 1)
             moveInput = moveInput.normalized;
 
-        // Å»Áø »óÅÂ Ã¼Å©
+        // Å»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼Å©
         if (currentStamina <= 0 && !isExhausted)
         {
             isExhausted = true;
@@ -57,10 +63,10 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        // ´Þ¸®±â Á¶°Ç: Shift + ÀÌµ¿ Áß + ½ºÅÂ¹Ì³ª ÀÖÀ½ + Å»Áø ¾Æ´Ô
+        // ï¿½Þ¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: Shift + ï¿½Ìµï¿½ ï¿½ï¿½ + ï¿½ï¿½ï¿½Â¹Ì³ï¿½ ï¿½ï¿½ï¿½ï¿½ + Å»ï¿½ï¿½ ï¿½Æ´ï¿½
         isRunning = Input.GetKey(KeyCode.LeftShift) && moveInput != Vector2.zero && currentStamina > 0 && !isExhausted;
 
-        // ½ºÅÂ¹Ì³ª Ã³¸®
+        // ï¿½ï¿½ï¿½Â¹Ì³ï¿½ Ã³ï¿½ï¿½
         if (isRunning)
         {
             currentStamina -= staminaDrainRate * Time.deltaTime;
@@ -72,14 +78,14 @@ public class PlayerMovement : MonoBehaviour
             currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
         }
 
-        // ½ºÅÂ¹Ì³ª ¹Ù UI ¾÷µ¥ÀÌÆ®
+        // ï¿½ï¿½ï¿½Â¹Ì³ï¿½ ï¿½ï¿½ UI ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
         if (staminaBar != null)
             staminaBar.value = currentStamina / maxStamina;
 
-        // ÇöÀç ¼Óµµ °è»ê
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ ï¿½ï¿½ï¿½
         float currentSpeed = isRunning ? speed + runSpeed : speed;
 
-        // --- ¾Ö´Ï¸ÞÀÌ¼Ç Ã³¸® ---
+        // --- ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ Ã³ï¿½ï¿½ ---
         animator.SetFloat("moveX", moveInput.x);
         animator.SetFloat("moveY", moveInput.y);
 

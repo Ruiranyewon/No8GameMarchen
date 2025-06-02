@@ -4,6 +4,7 @@ using TMPro;
 
 public class CharacterDialogueTrigger : MonoBehaviour
 {
+    private PlayerMovement playerMovement;
     public GameObject dialoguePanel;
     public TMP_Text dialogueText; // TextMeshPro 텍스트
     public string[] sentences; // Inspector에서 대사 입력
@@ -17,6 +18,10 @@ public class CharacterDialogueTrigger : MonoBehaviour
     {
         dialoguePanel.SetActive(false);
         dialogueText.text = "";
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+            playerMovement = player.GetComponent<PlayerMovement>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -25,6 +30,8 @@ public class CharacterDialogueTrigger : MonoBehaviour
         {
             dialogueStarted = true;
             dialoguePanel.SetActive(true);
+            if (playerMovement != null)
+                playerMovement.enabled = false;
             StartCoroutine(TypeSentence());
         }
     }
@@ -52,6 +59,9 @@ public class CharacterDialogueTrigger : MonoBehaviour
                     dialogueText.text = "";
                     index = 0;
                     dialogueStarted = false;
+
+                    if (playerMovement != null)
+                        playerMovement.enabled = true;
                 }
             }
         }
