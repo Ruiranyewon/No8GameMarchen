@@ -13,6 +13,7 @@ public class WitchAINew : MonoBehaviour
 
     private bool isActivated = false;
     private bool isRushing = false;
+    private bool isPausing = false;
 
     private Transform player;
     private Animator anim;
@@ -20,16 +21,13 @@ public class WitchAINew : MonoBehaviour
 
     private string currentDirection = "";
     private Vector2 rushDirection;
-    private float lastRushTime;
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        lastRushTime = Time.time;
 
-        // 바로 돌진 루프 시작
         StartCoroutine(RushRoutine());
     }
 
@@ -38,28 +36,30 @@ public class WitchAINew : MonoBehaviour
         if (!isActivated)
         {
             if (FirewoodManager.firewoodCount >= requiredFirewoodCount)
-            {
                 isActivated = true;
-            }
             else
-            {
                 return;
-            }
         }
 
         if (player == null) return;
 
-        if (!isRushing)
+        if (isPausing)
         {
-            // 평소 이동
-            Vector2 dir = (player.position - transform.position).normalized;
-            transform.position += (Vector3)(dir * moveSpeed * Time.deltaTime);
-            SetAnimationDirection(dir);
+            // 대기 상태: 아무것도 안 함
+            return;
+        }
+
+        if (isRushing)
+        {
+            // 돌진 상태: 고정 방향
+            transform.position += (Vector3)(rushDirection * rushSpeed * Time.deltaTime);
         }
         else
         {
-            // 돌진 중에는 rushDirection 고정
-            transform.position += (Vector3)(rushDirection * rushSpeed * Time.deltaTime);
+            // 일반 추격
+            Vector2 dir = (player.position - transform.position).normalized;
+            transform.position += (Vector3)(dir * moveSpeed * Time.deltaTime);
+            SetAnimationDirection(dir);
         }
     }
 
@@ -86,19 +86,29 @@ public class WitchAINew : MonoBehaviour
 
     IEnumerator RushRoutine()
     {
+        yield return new WaitUntil(() => isActivated);
+
         while (true)
         {
-            yield return new WaitUntil(() => isActivated);
             yield return new WaitForSeconds(rushCooldown);
 
-            // 돌진 전 정지
+            // 1. 추격 중단
+            isPausing = true;
+
+            // 2. 방향 고정
             Vector2 dirToPlayer = (player.position - transform.position).normalized;
             rushDirection = dirToPlayer;
 
+            // 3. 잠깐 멈춤
             yield return new WaitForSeconds(pauseBeforeRush);
 
+            // 4. 돌진
+            isPausing = false;
             isRushing = true;
+
             yield return new WaitForSeconds(rushDuration);
+
+            // 5. 다시 일반 추격
             isRushing = false;
         }
     }
