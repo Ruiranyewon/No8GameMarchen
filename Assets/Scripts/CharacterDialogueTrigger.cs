@@ -2,12 +2,29 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 
+[System.Serializable]
+public class DialogueLine
+{
+    public SpeakerProfile speaker;
+    [TextArea(2, 5)]
+    public string sentence;
+}
+
+[System.Serializable]
+[CreateAssetMenu(fileName = "SpeakerProfile", menuName = "Dialogue/Speaker Profile")]
+public class SpeakerProfile : ScriptableObject
+{
+    public string speakerName;
+    public Color speechColor;
+}
+
 public class CharacterDialogueTrigger : MonoBehaviour
 {
     private PlayerMovement playerMovement;
     public GameObject dialoguePanel;
     public TMP_Text dialogueText; // TextMeshPro 텍스트
-    public string[] sentences; // Inspector에서 대사 입력
+    public TMP_Text nameText;
+    public DialogueLine[] lines;
     public float typingSpeed = 0.05f;
 
     private int index = 0;
@@ -43,13 +60,13 @@ public class CharacterDialogueTrigger : MonoBehaviour
             if (isTyping)
             {
                 StopAllCoroutines();
-                dialogueText.text = sentences[index];
+                dialogueText.text = lines[index].sentence;
                 isTyping = false;
             }
             else
             {
                 index++;
-                if (index < sentences.Length)
+                if (index < lines.Length)
                 {
                     StartCoroutine(TypeSentence());
                 }
@@ -70,8 +87,11 @@ public class CharacterDialogueTrigger : MonoBehaviour
     IEnumerator TypeSentence()
     {
         isTyping = true;
+        nameText.text = lines[index].speaker.speakerName;
+        nameText.color = lines[index].speaker.speechColor;
+
         dialogueText.text = "";
-        foreach (char letter in sentences[index].ToCharArray())
+        foreach (char letter in lines[index].sentence.ToCharArray())
         {
             dialogueText.text += letter;
             yield return new WaitForSeconds(typingSpeed);
