@@ -3151,10 +3151,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 100b89fa31999484981752c1d2b1020f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 10
   rushSpeed: 50
   rushDuration: 2
-  pauseBeforeRush: 4
+  pauseBeforeRush: 1
   rushCooldown: 5
   requiredFirewoodCount: 1
 --- !u!95 &983171733
@@ -3239,7 +3239,7 @@ Transform:
   m_GameObject: {fileID: 983171731}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -77.7, z: 0}
+  m_LocalPosition: {x: 0, y: -126.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3644,6 +3644,10 @@ PrefabInstance:
     - target: {fileID: 7298641513675454660, guid: 64a5108ecc08e458e80ec2c4ded5cdb4, type: 3}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8537101300545020051, guid: 64a5108ecc08e458e80ec2c4ded5cdb4, type: 3}
+      propertyPath: speed
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8537101300545020051, guid: 64a5108ecc08e458e80ec2c4ded5cdb4, type: 3}
       propertyPath: staminaBar
