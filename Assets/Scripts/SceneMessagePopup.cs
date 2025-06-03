@@ -35,7 +35,7 @@ public class SceneMessagePopup : MonoBehaviour
 
     IEnumerator DelayedStart()
     {
-        yield return new WaitForSeconds(2f); // Wait for 2 seconds
+        yield return new WaitForSeconds(1f); // Wait for 2 seconds
         messagePanel.SetActive(true);
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
