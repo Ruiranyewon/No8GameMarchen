@@ -12,6 +12,9 @@ public class DialogueLine_FInteract
 
 public class FInteractDialogue : MonoBehaviour
 {
+    public bool IsDialogueActive() => dialogueStarted;
+    public int CurrentLineIndex() => index;
+
     public GameObject dialoguePanel;
     public TMP_Text dialogueText;
     public TMP_Text nameText;
