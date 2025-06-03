@@ -2,24 +2,11 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 
-[System.Serializable]
-public class DialogueLine
-{
-    public SpeakerProfile speaker;
-    [TextArea(2, 5)]
-    public string sentence;
-}
-
-[System.Serializable]
-[CreateAssetMenu(fileName = "SpeakerProfile", menuName = "Dialogue/Speaker Profile")]
-public class SpeakerProfile : ScriptableObject
-{
-    public string speakerName;
-    public Color speechColor;
-}
 
 public class CharacterDialogueTrigger : MonoBehaviour
 {
+    public static bool isDialoguePlaying = false;
+
     private PlayerMovement playerMovement;
     public GameObject dialoguePanel;
     public TMP_Text dialogueText; // TextMeshPro 텍스트
@@ -46,6 +33,8 @@ public class CharacterDialogueTrigger : MonoBehaviour
         if (other.CompareTag("Player") && !dialogueStarted)
         {
             dialogueStarted = true;
+            isDialoguePlaying = true;
+            SceneMessagePopup.isDialoguePlaying = true;
             dialoguePanel.SetActive(true);
             if (playerMovement != null)
                 playerMovement.enabled = false;
@@ -77,6 +66,9 @@ public class CharacterDialogueTrigger : MonoBehaviour
                     index = 0;
                     dialogueStarted = false;
 
+                    isDialoguePlaying = false;
+                    SceneMessagePopup.isDialoguePlaying = false;
+
                     if (playerMovement != null)
                         playerMovement.enabled = true;
                 }
@@ -87,8 +79,17 @@ public class CharacterDialogueTrigger : MonoBehaviour
     IEnumerator TypeSentence()
     {
         isTyping = true;
-        nameText.text = lines[index].speaker.speakerName;
-        nameText.color = lines[index].speaker.speechColor;
+
+        if (lines[index].speaker != null)
+        {
+            nameText.text = lines[index].speaker.speakerName;
+            nameText.color = lines[index].speaker.speechColor;
+        }
+        else
+        {
+            nameText.text = " ";
+            nameText.color = Color.white;
+        }
 
         dialogueText.text = "";
         foreach (char letter in lines[index].sentence.ToCharArray())
