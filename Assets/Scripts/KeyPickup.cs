@@ -12,6 +12,7 @@ public class KeyPickup : MonoBehaviour
             if (door != null)
             {
                 door.hasKey = true;
+                Debug.Log("열쇠 획득: 문 열기 가능!");
             }
 
             Destroy(gameObject);

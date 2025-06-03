@@ -989,56 +989,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1164423850}
   m_SourcePrefab: {fileID: 100100000, guid: 44ca28ef554444b8ea9749d5754a44f6, type: 3}
---- !u!1 &969878920 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 603933772889857117, guid: 3f9db97a7733a45d7a012b28cfe607a7, type: 3}
-  m_PrefabInstance: {fileID: 7803582597750977185}
-  m_PrefabAsset: {fileID: 0}
---- !u!61 &969878923
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 969878920}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.4, y: 1.12}
-    newSize: {x: 0.4, y: 1.12}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.4, y: 1.12}
-  m_EdgeRadius: 0
 --- !u!1 &974453280
 GameObject:
   m_ObjectHideFlags: 0
@@ -1160,6 +1110,15 @@ MonoBehaviour:
     sentence: My Handel...Where are you and where am I...
   - speaker: {fileID: 11400000, guid: d5d8a5931332b4ff0bfca01ee25e539d, type: 2}
     sentence: Let's look around
+  - speaker: {fileID: 11400000, guid: d6f81e8f9dbc5455e93a64e7173c4c92, type: 2}
+    sentence: 'Skip or fater lines : Enter
+
+      Move: Arrows or WASD
+
+      Run:
+      Shift
+
+      Interaction : F'
   typingSpeed: 0.05
 --- !u!4 &1016983220
 Transform:
@@ -1231,6 +1190,14 @@ PrefabInstance:
     - target: {fileID: 7298641513675454660, guid: 64a5108ecc08e458e80ec2c4ded5cdb4, type: 3}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8537101300545020051, guid: 64a5108ecc08e458e80ec2c4ded5cdb4, type: 3}
+      propertyPath: speed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8537101300545020051, guid: 64a5108ecc08e458e80ec2c4ded5cdb4, type: 3}
+      propertyPath: runSpeed
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8537101300545020051, guid: 64a5108ecc08e458e80ec2c4ded5cdb4, type: 3}
       propertyPath: staminaBar
@@ -2122,7 +2089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f06fbca35bcce41cd842928e59c21ef5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyPrefab: {fileID: 969878920}
+  keyPrefab: {fileID: 603933772889857117, guid: 3f9db97a7733a45d7a012b28cfe607a7, type: 3}
   maxHits: 5
 --- !u!1 &1545092763
 GameObject:
@@ -3132,66 +3099,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93c044b2cbf4e4539adac2b63548034b, type: 3}
---- !u!1001 &7803582597750977185
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 603933772889857117, guid: 3f9db97a7733a45d7a012b28cfe607a7, type: 3}
-      propertyPath: m_Name
-      value: Key
-      objectReference: {fileID: 0}
-    - target: {fileID: 2568917219782923958, guid: 3f9db97a7733a45d7a012b28cfe607a7, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 2568917219782923958, guid: 3f9db97a7733a45d7a012b28cfe607a7, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 2568917219782923958, guid: 3f9db97a7733a45d7a012b28cfe607a7, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2568917219782923958, guid: 3f9db97a7733a45d7a012b28cfe607a7, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2568917219782923958, guid: 3f9db97a7733a45d7a012b28cfe607a7, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2568917219782923958, guid: 3f9db97a7733a45d7a012b28cfe607a7, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2568917219782923958, guid: 3f9db97a7733a45d7a012b28cfe607a7, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2568917219782923958, guid: 3f9db97a7733a45d7a012b28cfe607a7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2568917219782923958, guid: 3f9db97a7733a45d7a012b28cfe607a7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2568917219782923958, guid: 3f9db97a7733a45d7a012b28cfe607a7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 603933772889857117, guid: 3f9db97a7733a45d7a012b28cfe607a7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 969878923}
-  m_SourcePrefab: {fileID: 100100000, guid: 3f9db97a7733a45d7a012b28cfe607a7, type: 3}
 --- !u!1001 &8285022847400950908
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3284,4 +3191,3 @@ SceneRoots:
   - {fileID: 1872680915}
   - {fileID: 1016983220}
   - {fileID: 1544740107}
-  - {fileID: 7803582597750977185}

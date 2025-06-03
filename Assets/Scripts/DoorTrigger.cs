@@ -10,19 +10,28 @@ public class DoorTrigger : MonoBehaviour
 
     private bool playerInRange = false;
 
+    void Start()
+    {
+        if (messagePanel != null)
+        {
+            messagePanel.SetActive(false);
+        }
+    }
+
     void Update()
     {
-        if (playerInRange && Input.GetKeyDown(KeyCode.E))
+        if (playerInRange && Input.GetKeyDown(KeyCode.F))
         {
             if (hasKey)
             {
-                messageText.text = "문을 열었다.";
+                Debug.Log("문 열기 가능 : 씬 전환 가능");
+                messageText.text = "You opened the door.";
                 messagePanel.SetActive(true);
-                Invoke("LoadNextScene", 1.5f);
+                Invoke("LoadNextScene", 0.5f); // Add delay before scene load
             }
             else
             {
-                messageText.text = "문이 잠겨있다. 열쇠가 필요한 듯하다.";
+                messageText.text = "The door is locked. You need a key.";
                 messagePanel.SetActive(true);
                 Invoke("HideMessage", 2f);
             }

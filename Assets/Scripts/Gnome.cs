@@ -15,8 +15,7 @@ public class Gnome : MonoBehaviour
             hitCount++;
             if (hitCount >= maxHits)
             {
-                SpawnKey();
-                Destroy(gameObject);
+                StartCoroutine(HandleDestruction());   
             }
         }
     }
@@ -27,5 +26,12 @@ public class Gnome : MonoBehaviour
         {
             Instantiate(keyPrefab, transform.position, Quaternion.identity);
         }
+    }
+
+        private IEnumerator HandleDestruction()
+    {
+        yield return new WaitForSeconds(0.5f);
+        SpawnKey();
+        Destroy(gameObject);
     }
 }
