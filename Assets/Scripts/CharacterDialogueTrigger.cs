@@ -36,8 +36,7 @@ public class CharacterDialogueTrigger : MonoBehaviour
             isDialoguePlaying = true;
             SceneMessagePopup.isDialoguePlaying = true;
             dialoguePanel.SetActive(true);
-            if (playerMovement != null)
-                playerMovement.enabled = false;
+            PlayerMovement.canMove = false;
             StartCoroutine(TypeSentence());
         }
     }
@@ -69,8 +68,7 @@ public class CharacterDialogueTrigger : MonoBehaviour
                     isDialoguePlaying = false;
                     SceneMessagePopup.isDialoguePlaying = false;
 
-                    if (playerMovement != null)
-                        playerMovement.enabled = true;
+                    PlayerMovement.canMove = true;
                 }
             }
         }
