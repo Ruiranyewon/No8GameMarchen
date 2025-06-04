@@ -4,6 +4,9 @@ using TMPro;
 
 public class HandelRemove : MonoBehaviour
 {
+    [SerializeField] private GameObject handelPrefab;
+    [SerializeField] private Transform playerGroupParent; // Players 오브젝트
+
     public GameObject dialoguePanel;
     public TMP_Text dialogueText;
     public TMP_Text nameText;
@@ -93,6 +96,26 @@ public class HandelRemove : MonoBehaviour
         {
             Destroy(handelObject);
             Debug.Log("헨델 오브젝트 삭제됨");
+        }
+
+        // 헨델 캐릭터 인스턴스 생성 및 활성화
+        if (handelPrefab != null && playerGroupParent != null)
+        {
+            GameObject handelInstance = Instantiate(handelPrefab, playerGroupParent);
+            handelInstance.SetActive(false); // 처음엔 비활성화
+            handelInstance.transform.SetSiblingIndex(3); // 정확히 네 번째로 위치
+
+            //헨델을 Scene3Players에 등록
+            Scene3Players playerManager = playerGroupParent.GetComponent<Scene3Players>();
+            if (playerManager != null)
+            {
+                playerManager.UnlockFourthPlayer();
+                Debug.Log("헨델 활성화 및 플레이어 전환 대상에 포함됨");
+            }
+            else
+            {
+                Debug.LogWarning("Scene3Players 스크립트를 찾을 수 없습니다.");
+            }
         }
     }
 

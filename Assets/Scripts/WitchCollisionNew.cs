@@ -28,7 +28,7 @@ public class WitchCollision : MonoBehaviour
     {
         yield return new WaitForSeconds(0f);
         if (keyPrefab != null)
-            Instantiate(keyPrefab, new Vector3(2f, -7.6f, 0f), Quaternion.identity);
+            Instantiate(keyPrefab, new Vector3(49f, -39f, 0f), Quaternion.identity);
 
         yield return new WaitForSeconds(0f);
         Destroy(gameObject);

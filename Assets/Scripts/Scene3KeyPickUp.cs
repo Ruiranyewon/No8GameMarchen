@@ -3,15 +3,15 @@ using UnityEngine;
 public class Scene3KeyPickUp : MonoBehaviour
 {
     private bool playerInRange = false;
+    private PlayerKeyPickUp currentPlayer = null;
 
     void Update()
     {
         if (playerInRange && Input.GetKeyDown(KeyCode.F))
         {
-            PlayerKeyPickUp player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerKeyPickUp>();
-            if (player != null)
+            if (currentPlayer != null)
             {
-                player.hasKey = true;
+                currentPlayer.hasKey = true;
                 Debug.Log("¿­¼è¸¦ ÁÖ¿ü½À´Ï´Ù!");
                 Destroy(gameObject);
             }
@@ -21,13 +21,18 @@ public class Scene3KeyPickUp : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
+        {
             playerInRange = true;
+            currentPlayer = other.GetComponent<PlayerKeyPickUp>();
+        }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
+        {
             playerInRange = false;
+            currentPlayer = null;
+        }
     }
 }
-

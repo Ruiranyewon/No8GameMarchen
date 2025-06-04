@@ -14,6 +14,7 @@ public class WitchAINew : MonoBehaviour
     private bool isActivated = false;
     private bool isRushing = false;
     private bool isPausing = false;
+    private bool isStopped = false; //  외부에서 완전 정지 시킬 때 사용
 
     private Transform player;
     private Animator anim;
@@ -22,17 +23,30 @@ public class WitchAINew : MonoBehaviour
     private string currentDirection = "";
     private Vector2 rushDirection;
 
+    private float originalMoveSpeed;
+    private float originalRushSpeed;
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
+        originalMoveSpeed = moveSpeed;
+        originalRushSpeed = rushSpeed;
+
         StartCoroutine(RushRoutine());
     }
 
     void Update()
     {
+        if (isStopped) return;
+
+        // 현재 활성화된 플레이어 계속 추적
+        GameObject currentPlayer = GameObject.FindGameObjectWithTag("Player");
+        if (currentPlayer != null)
+            player = currentPlayer.transform;
+
         if (!isActivated)
         {
             if (FirewoodManager.firewoodCount >= requiredFirewoodCount)
@@ -43,20 +57,14 @@ public class WitchAINew : MonoBehaviour
 
         if (player == null) return;
 
-        if (isPausing)
-        {
-            // 대기 상태: 아무것도 안 함
-            return;
-        }
+        if (isPausing) return;
 
         if (isRushing)
         {
-            // 돌진 상태: 고정 방향
             transform.position += (Vector3)(rushDirection * rushSpeed * Time.deltaTime);
         }
         else
         {
-            // 일반 추격
             Vector2 dir = (player.position - transform.position).normalized;
             transform.position += (Vector3)(dir * moveSpeed * Time.deltaTime);
             SetAnimationDirection(dir);
@@ -88,38 +96,42 @@ public class WitchAINew : MonoBehaviour
     {
         yield return new WaitUntil(() => isActivated);
 
-        while (true)
+        while (!isStopped)
         {
             yield return new WaitForSeconds(rushCooldown);
 
-            // 1. 추격 중단
+            if (player == null) yield break;
+
             isPausing = true;
 
-            // 2. 방향 고정
             Vector2 dirToPlayer = (player.position - transform.position).normalized;
             rushDirection = dirToPlayer;
 
-            // 3. 잠깐 멈춤
             yield return new WaitForSeconds(pauseBeforeRush);
 
-            // 4. 돌진
             isPausing = false;
             isRushing = true;
 
             yield return new WaitForSeconds(rushDuration);
 
-            // 5. 다시 일반 추격
             isRushing = false;
         }
     }
+
+    // 외부에서 마녀를 멈추고 싶을 때 호출
     public void StopMovement()
     {
-        moveSpeed = 0f;
-        rushSpeed = 0f;
+        isStopped = true;
         isRushing = false;
-        isPausing = true;
+        isPausing = false;
     }
 
+    // 외부에서 다시 살리고 싶으면 이 함수로!
+    public void ResumeMovement()
+    {
+        isStopped = false;
+        moveSpeed = originalMoveSpeed;
+        rushSpeed = originalRushSpeed;
+        StartCoroutine(RushRoutine());
+    }
 }
-
-

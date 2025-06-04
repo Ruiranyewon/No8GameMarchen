@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 6616030778968775171}
   - component: {fileID: 4333849143590545932}
   - component: {fileID: 4914010600743220252}
+  - component: {fileID: -99112370293327997}
   m_Layer: 0
   m_Name: Handel
-  m_TagString: Untagged
+  m_TagString: Handel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -200,3 +201,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &-99112370293327997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4134115550195989139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e809937c0d7e4369ab26ec676fc4ccb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
