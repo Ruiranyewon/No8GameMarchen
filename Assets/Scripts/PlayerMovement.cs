@@ -131,5 +131,22 @@ public class PlayerMovement : MonoBehaviour
         if (rb == null) return;
         float currentSpeed = isRunning ? speed + runSpeed : speed;
         rb.MovePosition(rb.position + moveInput * currentSpeed * Time.fixedDeltaTime);
+        transform.rotation = Quaternion.identity;
+    }
+        public static bool CanSwitchTo(string characterName)
+    {
+        switch (characterName)
+        {
+            case "Marin":
+                GameObject marinTrapped = GameObject.Find("MarinTrapped");
+                return marinTrapped == null || !marinTrapped.activeInHierarchy;
+
+            case "Chili":
+                GameObject chiliTrapped = GameObject.Find("ChiliTrapped");
+                return chiliTrapped == null || !chiliTrapped.activeInHierarchy;
+
+            default:
+                return true;
+        }
     }
 }

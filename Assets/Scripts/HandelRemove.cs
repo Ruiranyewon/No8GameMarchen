@@ -4,6 +4,9 @@ using TMPro;
 
 public class HandelRemove : MonoBehaviour
 {
+    [SerializeField] private GameObject handelPrefab;
+    [SerializeField] private Transform playerGroupParent;
+
     public GameObject dialoguePanel;
     public TMP_Text dialogueText;
     public TMP_Text nameText;
@@ -14,6 +17,10 @@ public class HandelRemove : MonoBehaviour
 
     public GameObject handelObject;
     public float typingSpeed = 0.05f;
+
+    [Header("Sound")]
+    public AudioClip removeSound; // 사운드 추가
+    private AudioSource audioSource;
 
     private bool playerInRange = false;
     private int index = 0;
@@ -28,6 +35,10 @@ public class HandelRemove : MonoBehaviour
         if (playerObj != null)
             playerController = playerObj.GetComponent<PlayerKeyPickUp>();
 
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>(); // 없으면 자동 추가
+
         dialoguePanel.SetActive(false);
         dialogueText.text = "";
         nameText.text = "";
@@ -37,7 +48,6 @@ public class HandelRemove : MonoBehaviour
     {
         if (!playerInRange) return;
 
-        // F 키로 대화 시작
         if (!dialogueStarted && Input.GetKeyDown(KeyCode.F))
         {
             if (playerController != null && playerController.hasKey)
@@ -50,7 +60,6 @@ public class HandelRemove : MonoBehaviour
             }
         }
 
-        // 대화 진행 (F 또는 Enter로)
         if (dialogueStarted && (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.Return)))
         {
             if (isTyping)
@@ -91,8 +100,29 @@ public class HandelRemove : MonoBehaviour
 
         if (handelObject != null)
         {
-            Destroy(handelObject);
+            if (removeSound != null)
+                audioSource.PlayOneShot(removeSound); // 사운드 재생
+
+            Destroy(handelObject); // 소리 재생 후 삭제
             Debug.Log("헨델 오브젝트 삭제됨");
+        }
+
+        if (handelPrefab != null && playerGroupParent != null)
+        {
+            GameObject handelInstance = Instantiate(handelPrefab, playerGroupParent);
+            handelInstance.SetActive(false);
+            handelInstance.transform.SetSiblingIndex(3);
+
+            Scene3Players playerManager = playerGroupParent.GetComponent<Scene3Players>();
+            if (playerManager != null)
+            {
+                playerManager.UnlockFourthPlayer();
+                Debug.Log("헨델 활성화 및 플레이어 전환 대상에 포함됨");
+            }
+            else
+            {
+                Debug.LogWarning("Scene3Players 스크립트를 찾을 수 없습니다.");
+            }
         }
     }
 

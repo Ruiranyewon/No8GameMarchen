@@ -14,6 +14,7 @@ public class WitchAINew : MonoBehaviour
     private bool isActivated = false;
     private bool isRushing = false;
     private bool isPausing = false;
+    private bool isStopped = false;
 
     private Transform player;
     private Animator anim;
@@ -22,41 +23,66 @@ public class WitchAINew : MonoBehaviour
     private string currentDirection = "";
     private Vector2 rushDirection;
 
+    private float originalMoveSpeed;
+    private float originalRushSpeed;
+
+    public AudioClip rushSound;
+    public AudioClip bgmOnFirstAppear; //  마녀 등장 시 한 번만 재생할 음악
+    private bool bgmPlayed = false;    // 중복 방지용 플래그
+
+    private AudioSource audioSource;
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
+        originalMoveSpeed = moveSpeed;
+        originalRushSpeed = rushSpeed;
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+
         StartCoroutine(RushRoutine());
     }
 
     void Update()
     {
+        if (isStopped) return;
+
+        GameObject currentPlayer = GameObject.FindGameObjectWithTag("Player");
+        if (currentPlayer != null)
+            player = currentPlayer.transform;
+
         if (!isActivated)
         {
             if (FirewoodManager.firewoodCount >= requiredFirewoodCount)
+            {
                 isActivated = true;
+
+                // 마녀 등장 음악 한 번만 재생
+                if (!bgmPlayed && bgmOnFirstAppear != null)
+                {
+                    audioSource.clip = bgmOnFirstAppear;
+                    audioSource.loop = true;
+                    audioSource.Play();
+                    bgmPlayed = true;
+                }
+            }
             else
                 return;
         }
 
-        if (player == null) return;
-
-        if (isPausing)
-        {
-            // 대기 상태: 아무것도 안 함
-            return;
-        }
+        if (player == null || isPausing) return;
 
         if (isRushing)
         {
-            // 돌진 상태: 고정 방향
             transform.position += (Vector3)(rushDirection * rushSpeed * Time.deltaTime);
         }
         else
         {
-            // 일반 추격
             Vector2 dir = (player.position - transform.position).normalized;
             transform.position += (Vector3)(dir * moveSpeed * Time.deltaTime);
             SetAnimationDirection(dir);
@@ -88,38 +114,43 @@ public class WitchAINew : MonoBehaviour
     {
         yield return new WaitUntil(() => isActivated);
 
-        while (true)
+        while (!isStopped)
         {
             yield return new WaitForSeconds(rushCooldown);
 
-            // 1. 추격 중단
+            if (player == null) yield break;
+
             isPausing = true;
 
-            // 2. 방향 고정
             Vector2 dirToPlayer = (player.position - transform.position).normalized;
             rushDirection = dirToPlayer;
 
-            // 3. 잠깐 멈춤
             yield return new WaitForSeconds(pauseBeforeRush);
 
-            // 4. 돌진
             isPausing = false;
             isRushing = true;
 
+            if (rushSound != null && audioSource != null)
+                audioSource.PlayOneShot(rushSound);
+
             yield return new WaitForSeconds(rushDuration);
 
-            // 5. 다시 일반 추격
             isRushing = false;
         }
     }
+
     public void StopMovement()
     {
-        moveSpeed = 0f;
-        rushSpeed = 0f;
+        isStopped = true;
         isRushing = false;
-        isPausing = true;
+        isPausing = false;
     }
 
+    public void ResumeMovement()
+    {
+        isStopped = false;
+        moveSpeed = originalMoveSpeed;
+        rushSpeed = originalRushSpeed;
+        StartCoroutine(RushRoutine());
+    }
 }
-
-

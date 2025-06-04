@@ -97,4 +97,17 @@ public class CharacterDialogueTrigger : MonoBehaviour
         }
         isTyping = false;
     }
+
+    public void StartDialogueExternally()
+    {
+        if (!dialogueStarted)
+        {
+            dialogueStarted = true;
+            isDialoguePlaying = true;
+            SceneMessagePopup.isDialoguePlaying = true;
+            dialoguePanel.SetActive(true);
+            PlayerMovement.canMove = false;
+            StartCoroutine(TypeSentence());
+        }
+    }
 }
