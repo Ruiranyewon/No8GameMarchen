@@ -31,6 +31,10 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.LogError("[PlayerMovement] Rigidbody2D component is missing on the 'Players' GameObject. Please add one in the Inspector.");
         }
+        if (rb != null)
+        {
+            rb.freezeRotation = true;
+        }
         currentAnimator = GetComponentInChildren<Animator>();
         currentStamina = maxStamina;
 

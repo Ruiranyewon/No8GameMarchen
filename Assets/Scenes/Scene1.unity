@@ -3501,7 +3501,7 @@ MonoBehaviour:
   gingerbreadPrefab: {fileID: 2963506150425895425, guid: 9bccdf14d0e6c4316a81fa7cefadf7d8, type: 3}
   sugarGnomePrefab: {fileID: 8549822897039734229, guid: 15c330ed3df9945b4873d8c1bbb2eae6, type: 3}
   bossGnomePrefab: {fileID: 3629256199333501771, guid: 097dc9660664a4c38b047bfa0ee147bf, type: 3}
-  spawnInterval: 20
+  spawnInterval: 15
   totalEnemiesToSpawn: 14
   spawnAreaSize: {x: 600, y: 400}
 --- !u!1 &1566187313
@@ -5965,6 +5965,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4353824866170106353, guid: 9399204fdb0c34c23a21dec736a04dda, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8056123385135446095, guid: 9399204fdb0c34c23a21dec736a04dda, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
