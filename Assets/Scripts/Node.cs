@@ -1,35 +1,15 @@
+using System.Collections.Generic;
 using UnityEngine;
-
 public class Node
 {
-    public bool isWall;
-    public bool walkable;
-    public Vector3 worldPosition;
-    public int x, y;
-    public int gridX;
-    public int gridY;
-
-    public int gCost;
-    public int hCost;
+    public Vector2Int position;
     public Node parent;
+    public int gCost; // 이동 거리
+    public int hCost; // 목표까지 거리
+    public int F => gCost + hCost;
 
-    public int fCost
+    public Node(Vector2Int position)
     {
-        get { return gCost + hCost; }
-    }
-
-    public Node(bool _walkable, Vector3 _worldPosition, int _gridX, int _gridY)
-    {
-        walkable = _walkable;
-        worldPosition = _worldPosition;
-        gridX = _gridX;
-        gridY = _gridY;
-    }
-
-    public Node(bool isWall, int x, int y)
-    {
-        this.isWall = isWall;
-        this.x = x;
-        this.y = y;
+        this.position = position;
     }
 }

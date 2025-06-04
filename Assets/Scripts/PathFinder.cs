@@ -1,91 +1,65 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PathFinder
+public class CustomPathFinder
 {
-    private Node[,] grid;
     private int width, height;
     private Vector2Int bottomLeft;
     private LayerMask wallMask;
 
-    public PathFinder(Vector2Int bottomLeft, Vector2Int topRight, LayerMask wallMask)
+    public CustomPathFinder(Vector2Int bottomLeft, Vector2Int topRight, LayerMask wallMask)
     {
         this.bottomLeft = bottomLeft;
         this.wallMask = wallMask;
-
         width = topRight.x - bottomLeft.x + 1;
         height = topRight.y - bottomLeft.y + 1;
-
-        grid = new Node[width, height];
-
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                Vector2 worldPos = new Vector2(x + bottomLeft.x + 0.5f, y + bottomLeft.y + 0.5f); // 중심 보정
-                bool isWall = Physics2D.OverlapCircle(worldPos, 0.4f, wallMask);
-                grid[x, y] = new Node(isWall, x + bottomLeft.x, y + bottomLeft.y);
-            }
-        }
     }
 
-    public List<Vector2> FindPath(Vector2Int start, Vector2Int target)
+    public List<Vector2Int> FindPath(Vector2Int start, Vector2Int target)
     {
-        int sx = start.x - bottomLeft.x;
-        int sy = start.y - bottomLeft.y;
-        int tx = target.x - bottomLeft.x;
-        int ty = target.y - bottomLeft.y;
+        HashSet<Vector2Int> closedSet = new();
+        PriorityQueue<Node> openSet = new();
+        Dictionary<Vector2Int, Node> allNodes = new();
 
-        if (sx < 0 || sy < 0 || tx < 0 || ty < 0 || sx >= width || sy >= height || tx >= width || ty >= height)
+        Node startNode = new Node(start);
+        startNode.gCost = 0;
+        startNode.hCost = GetHeuristic(start, target);
+        openSet.Enqueue(startNode, startNode.F);
+        allNodes[start] = startNode;
+
+        while (openSet.Count > 0)
         {
-            Debug.LogWarning($"시작 또는 목표 위치가 범위를 벗어났습니다: start={start}, target={target}");
-            return null;
-        }
+            Node current = openSet.Dequeue();
+            if (current.position == target)
+                return RetracePath(current);
 
-        Node startNode = grid[sx, sy];
-        Node targetNode = grid[tx, ty];
+            closedSet.Add(current.position);
 
-        List<Node> open = new List<Node> { startNode };
-        HashSet<Node> closed = new HashSet<Node>();
-
-        while (open.Count > 0)
-        {
-            Node current = open[0];
-            for (int i = 1; i < open.Count; i++)
+            foreach (Vector2Int dir in Directions4)
             {
-                if (open[i].fCost < current.fCost || (open[i].fCost == current.fCost && open[i].hCost < current.hCost))
-                    current = open[i];
-            }
+                Vector2Int neighborPos = current.position + dir;
+                if (closedSet.Contains(neighborPos)) continue;
 
-            open.Remove(current);
-            closed.Add(current);
+                if (IsWall(neighborPos)) continue;
 
-            if (current == targetNode)
-            {
-                List<Vector2> path = new List<Vector2>();
-                Node temp = targetNode;
-                while (temp != startNode)
+                int tentativeG = current.gCost + 1;
+                if (allNodes.TryGetValue(neighborPos, out Node neighbor))
                 {
-                    path.Add(new Vector2(temp.x + 0.5f, temp.y + 0.5f)); // 타일 중심으로 이동
-                    temp = temp.parent;
+                    if (tentativeG < neighbor.gCost)
+                    {
+                        neighbor.gCost = tentativeG;
+                        neighbor.parent = current;
+                        openSet.Enqueue(neighbor, neighbor.F);
+                    }
                 }
-                path.Reverse();
-                return path;
-            }
-
-            foreach (Node neighbor in GetNeighbors(current))
-            {
-                if (neighbor.isWall || closed.Contains(neighbor)) continue;
-
-                int moveCost = current.gCost + GetDistance(current, neighbor);
-                if (moveCost < neighbor.gCost || !open.Contains(neighbor))
+                else
                 {
-                    neighbor.gCost = moveCost;
-                    neighbor.hCost = GetDistance(neighbor, targetNode);
+                    neighbor = new Node(neighborPos);
+                    neighbor.gCost = tentativeG;
+                    neighbor.hCost = GetHeuristic(neighborPos, target);
                     neighbor.parent = current;
-
-                    if (!open.Contains(neighbor))
-                        open.Add(neighbor);
+                    allNodes[neighborPos] = neighbor;
+                    openSet.Enqueue(neighbor, neighbor.F);
                 }
             }
         }
@@ -93,26 +67,30 @@ public class PathFinder
         return null;
     }
 
-    private List<Node> GetNeighbors(Node node)
+    private List<Vector2Int> RetracePath(Node endNode)
     {
-        List<Node> neighbors = new List<Node>();
-        Vector2Int[] dirs = {
-            Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right
-        };
-
-        foreach (Vector2Int dir in dirs)
+        List<Vector2Int> path = new();
+        Node current = endNode;
+        while (current != null)
         {
-            int checkX = node.x + dir.x - bottomLeft.x;
-            int checkY = node.y + dir.y - bottomLeft.y;
-            if (checkX >= 0 && checkX < width && checkY >= 0 && checkY < height)
-                neighbors.Add(grid[checkX, checkY]);
+            path.Add(current.position);
+            current = current.parent;
         }
-
-        return neighbors;
+        path.Reverse();
+        return path;
     }
 
-    private int GetDistance(Node a, Node b)
+    private int GetHeuristic(Vector2Int a, Vector2Int b) =>
+        Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y); // Manhattan 거리
+
+    private bool IsWall(Vector2Int pos)
     {
-        return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
+        Vector2 world = (Vector2)pos;
+        return Physics2D.OverlapPoint(world, wallMask) != null;
     }
+
+    private static readonly Vector2Int[] Directions4 =
+    {
+        Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right
+    };
 }
