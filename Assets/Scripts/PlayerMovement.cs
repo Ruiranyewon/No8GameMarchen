@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -137,7 +138,7 @@ public class PlayerMovement : MonoBehaviour
         rb.MovePosition(rb.position + moveInput * currentSpeed * Time.fixedDeltaTime);
         transform.rotation = Quaternion.identity;
     }
-        public static bool CanSwitchTo(string characterName)
+    public static bool CanSwitchTo(string characterName)
     {
         switch (characterName)
         {
@@ -153,4 +154,14 @@ public class PlayerMovement : MonoBehaviour
                 return true;
         }
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("플레이어가 적에게 부딪혔습니다. 게임 오버!");
+            SceneManager.LoadScene("GameOver"); // Replace with your actual scene name
+        }
+    }
 }
+
+

@@ -4255,6 +4255,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 25f93a347a8744d0d976568aa7012504, type: 2}
     - target: {fileID: 179616882709120374, guid: aee118475c73c480f8ae348793402d38, type: 3}
+      propertyPath: lines.Array.data[0].sentence
+      value: ' The lever lock was unlocked when the water was accurately poured into
+        the cup.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 179616882709120374, guid: aee118475c73c480f8ae348793402d38, type: 3}
       propertyPath: lines.Array.data[3].sentence
       value: Thank you so much! We will help you to find your brother!!
       objectReference: {fileID: 0}

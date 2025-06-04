@@ -52,7 +52,7 @@ public class LeverScript : MonoBehaviour
 
         if (!isPuzzleActive) return;
 
-        if (isWaterLever && !puzzleCompleteChecked)
+        if (isWaterLever && !puzzleCompleteChecked && puzzleUI.activeInHierarchy)
         {
             if (Input.GetKey(KeyCode.Space))
             {
