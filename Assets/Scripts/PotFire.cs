@@ -1,25 +1,52 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;  // 2D Light 사용을 위한 네임스페이스
 
 public class PotFire : MonoBehaviour
 {
-    public int requiredFirewood = 3;                   // 불을 붙이기 위해 필요한 장작 개수
-    public SpriteRenderer potRenderer;                 // 바꿀 대상 렌더러
-    public Sprite fireSprite;                          // 불 붙은 상태 스프라이트
-    private bool activated = false;                    // 중복 방지
-    private bool playerInRange = false;                // 트리거 범위 체크
+    public AudioClip fireSound;         // 칠리로 불 붙일 때 사운드
+    public AudioClip witchHitSound;     // 마녀 불타는 소리
+    public AudioClip witchScreamSound;  // 마녀 비명 사운드
+    private AudioSource audioSource;
+
+    public int requiredFirewood = 3;
+    public SpriteRenderer potRenderer;
+    public Sprite fireSprite;
+    public Light2D fireLight;
+
+    private bool activated = false;
+    private bool playerInRange = false;
+    private GameObject currentPlayer;
+
+    void Start()
+    {
+        if (fireLight != null)
+            fireLight.enabled = false;
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+    }
 
     void Update()
     {
-        if (activated || !playerInRange) return;
+        if (activated || !playerInRange || currentPlayer == null) return;
 
-        if (Input.GetKeyDown(KeyCode.F) && FirewoodManager.firewoodCount >= requiredFirewood)
+        if (currentPlayer.name == "Chill" &&
+            Input.GetKeyDown(KeyCode.Space) &&
+            FirewoodManager.firewoodCount >= requiredFirewood)
         {
             if (potRenderer != null && fireSprite != null)
             {
                 potRenderer.sprite = fireSprite;
                 gameObject.tag = "FirePot";
                 activated = true;
-                Debug.Log("Pot activated!");
+                Debug.Log("Pot activated by Chill!");
+
+                if (fireLight != null)
+                    fireLight.enabled = true;
+
+                if (fireSound != null)
+                    audioSource.PlayOneShot(fireSound);
             }
         }
     }
@@ -28,7 +55,18 @@ public class PotFire : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            currentPlayer = other.gameObject;
             playerInRange = true;
+        }
+
+        if (other.CompareTag("Witch"))
+        {
+            // 동시에 두 소리 재생
+            if (witchHitSound != null)
+                audioSource.PlayOneShot(witchHitSound);
+
+            if (witchScreamSound != null)
+                audioSource.PlayOneShot(witchScreamSound);
         }
     }
 
@@ -37,6 +75,7 @@ public class PotFire : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
+            currentPlayer = null;
         }
     }
 }

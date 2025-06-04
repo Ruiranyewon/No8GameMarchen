@@ -7,6 +7,8 @@ TagManager:
   - CageTrigger
   - Enemy
   - FirePot
+  - Handel
+  - Witch
   layers:
   - Default
   - TransparentFX
