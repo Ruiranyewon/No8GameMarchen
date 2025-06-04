@@ -1,12 +1,22 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class SceneMessagePopup : MonoBehaviour
 {
-    public GameObject messagePanel;
+    public static bool isDialoguePlaying = false;
 
-    void Start()
+    public GameObject messagePanel;
+    public TMP_Text dialogueText;
+    public TMP_Text nameText;
+    public DialogueLine[] lines;
+    public float typingSpeed = 0.05f;
+
+    private int index = 0;
+    private bool isTyping = false;
+    private PlayerMovement playerMovement;
+
+    void Awake()
     {
         if (messagePanel != null)
         {
@@ -14,16 +24,70 @@ public class SceneMessagePopup : MonoBehaviour
         }
     }
 
-    void Update()
+    void Start()
     {
-        
+        isDialoguePlaying = true;
+        messagePanel.SetActive(false); // Hide initially
+        dialogueText.text = "";
+        index = 0;
+        StartCoroutine(DelayedStart());
     }
 
-    public void CloseMessage()
+    IEnumerator DelayedStart()
     {
-        if (messagePanel != null)
+        yield return new WaitForSeconds(1f); // Wait for 2 seconds
+        messagePanel.SetActive(true);
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
         {
-            messagePanel.SetActive(false);
+            playerMovement = player.GetComponent<PlayerMovement>();
+            if (playerMovement != null)
+                playerMovement.enabled = false;
         }
+        StartCoroutine(TypeSentence());
+    }
+
+    void Update()
+    {
+        if (messagePanel.activeSelf && Input.GetKeyDown(KeyCode.Return) && !CharacterDialogueTrigger.isDialoguePlaying)
+        {
+            if (isTyping)
+            {
+                StopAllCoroutines();
+                dialogueText.text = lines[index].sentence;
+                isTyping = false;
+            }
+            else
+            {
+                index++;
+                if (index < lines.Length)
+                {
+                    StartCoroutine(TypeSentence());
+                }
+                else
+                {
+                    messagePanel.SetActive(false);
+                    dialogueText.text = "";
+                    if (playerMovement != null)
+                        playerMovement.enabled = true;
+                    isDialoguePlaying = false;
+                }
+            }
+        }
+    }
+
+    IEnumerator TypeSentence()
+    {
+        isTyping = true;
+        nameText.text = lines[index].speaker.speakerName;
+        nameText.color = lines[index].speaker.speechColor;
+
+        dialogueText.text = "";
+        foreach (char letter in lines[index].sentence.ToCharArray())
+        {
+            dialogueText.text += letter;
+            yield return new WaitForSeconds(typingSpeed);
+        }
+        isTyping = false;
     }
 }

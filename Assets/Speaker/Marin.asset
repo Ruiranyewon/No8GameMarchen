@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 09d3e2fd9649841b79fe054ed52a0e7e, type: 3}
   m_Name: Marin
-  m_EditorClassIdentifier: Assembly-CSharp::SpeakerProfile
+  m_EditorClassIdentifier: 
   speakerName: Marin
-  speechColor: {r: 0.8915094, g: 0.95640105, b: 1, a: 1}
+  speechColor: {r: 0.78431374, g: 0.88235295, b: 1, a: 1}

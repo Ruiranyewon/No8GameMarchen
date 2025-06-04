@@ -108,6 +108,7 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetBool("isMoving", false);
         }
+        //Debug.Log($"[PlayerMovement] moveInput: {moveInput}, isRunning: {isRunning}, currentStamina: {currentStamina:F2}");
     }
 
     private void FixedUpdate()
