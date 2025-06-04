@@ -12,6 +12,7 @@ public class BtnType : MonoBehaviour
     public GameObject introPanel;
     bool isSound = true;
 
+
     public void OnBtnClick()
     {
         switch(currentType)
@@ -22,6 +23,7 @@ public class BtnType : MonoBehaviour
                 break;
             case BTNType.Continue:
                 Debug.Log("이어하기");
+                SceneManager.LoadScene("Continue");
                 break;
             case BTNType.Option:
                 CanvasGroupOn(optionGroup);
