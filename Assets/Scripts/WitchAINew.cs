@@ -112,4 +112,14 @@ public class WitchAINew : MonoBehaviour
             isRushing = false;
         }
     }
+    public void StopMovement()
+    {
+        moveSpeed = 0f;
+        rushSpeed = 0f;
+        isRushing = false;
+        isPausing = true;
+    }
+
 }
+
+
