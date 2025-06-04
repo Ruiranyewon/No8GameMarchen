@@ -17,8 +17,18 @@ public class PlayerSwitcher : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            currentIndex = (currentIndex + 1) % players.Length;
-            ActivateOnly(currentIndex);
+            int nextIndex = (currentIndex + 1) % players.Length;
+            string characterName = players[nextIndex].name;
+
+            if (PlayerMovement.CanSwitchTo(characterName))
+            {
+                currentIndex = nextIndex;
+                ActivateOnly(currentIndex);
+            }
+            else
+            {
+                Debug.Log($"[PlayerSwitcher] {characterName}은(는) 아직 전환할 수 없습니다.");
+            }
         }
     }
 
