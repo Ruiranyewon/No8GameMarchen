@@ -18,8 +18,8 @@ public class AttachPlayerLight : MonoBehaviour
         Light2D light2D = lightObj.AddComponent<Light2D>();
         light2D.lightType = Light2D.LightType.Point;
         light2D.intensity = 0.5f;
-        light2D.pointLightInnerRadius = 25.0f;
-        light2D.pointLightOuterRadius = 50.0f;
+        light2D.pointLightInnerRadius = 30.0f;
+        light2D.pointLightOuterRadius = 60.0f;
         light2D.color = Color.white;
         light2D.falloffIntensity = 1f;
         light2D.shadowIntensity = 0f;

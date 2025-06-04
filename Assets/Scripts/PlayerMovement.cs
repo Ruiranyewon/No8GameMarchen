@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public static bool canMove = true;
     public float speed = 3f;
     public float runSpeed = 2f;
 
@@ -21,12 +22,16 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 moveInput;
     private Rigidbody2D rb;
-    private Animator animator;
+    private Animator currentAnimator;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        if (rb == null)
+        {
+            Debug.LogError("[PlayerMovement] Rigidbody2D component is missing on the 'Players' GameObject. Please add one in the Inspector.");
+        }
+        currentAnimator = GetComponentInChildren<Animator>();
         currentStamina = maxStamina;
 
         if (staminaBar != null)
@@ -35,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (!canMove) return;
         // --- �Է� ó�� ---
         float inputX = Input.GetAxisRaw("Horizontal");
         float inputY = Input.GetAxisRaw("Vertical");
@@ -85,34 +91,44 @@ public class PlayerMovement : MonoBehaviour
         // ���� �ӵ� ���
         float currentSpeed = isRunning ? speed + runSpeed : speed;
 
-        // --- �ִϸ��̼� ó�� ---
-        animator.SetFloat("moveX", moveInput.x);
-        animator.SetFloat("moveY", moveInput.y);
-
-        if (moveInput != Vector2.zero)
+        // --- 애니메이션 처리 ---
+        if (currentAnimator == null || !currentAnimator.gameObject.activeInHierarchy)
         {
-            animator.SetBool("isMoving", true);
+            currentAnimator = GetComponentInChildren<Animator>();
+        }
 
-            if (Mathf.Abs(moveInput.x) > Mathf.Abs(moveInput.y))
+        if (currentAnimator != null)
+        {
+            currentAnimator.SetFloat("moveX", moveInput.x);
+            currentAnimator.SetFloat("moveY", moveInput.y);
+
+            if (moveInput != Vector2.zero)
             {
-                animator.SetFloat("lastmoveX", Mathf.Sign(moveInput.x));
-                animator.SetFloat("lastmoveY", 0);
+                currentAnimator.SetBool("isMoving", true);
+
+                if (Mathf.Abs(moveInput.x) > Mathf.Abs(moveInput.y))
+                {
+                    currentAnimator.SetFloat("lastmoveX", Mathf.Sign(moveInput.x));
+                    currentAnimator.SetFloat("lastmoveY", 0);
+                }
+                else
+                {
+                    currentAnimator.SetFloat("lastmoveX", 0);
+                    currentAnimator.SetFloat("lastmoveY", Mathf.Sign(moveInput.y));
+                }
             }
             else
             {
-                animator.SetFloat("lastmoveX", 0);
-                animator.SetFloat("lastmoveY", Mathf.Sign(moveInput.y));
+                currentAnimator.SetBool("isMoving", false);
             }
-        }
-        else
-        {
-            animator.SetBool("isMoving", false);
         }
         //Debug.Log($"[PlayerMovement] moveInput: {moveInput}, isRunning: {isRunning}, currentStamina: {currentStamina:F2}");
     }
 
     private void FixedUpdate()
     {
+        if (!canMove) return;
+        if (rb == null) return;
         float currentSpeed = isRunning ? speed + runSpeed : speed;
         rb.MovePosition(rb.position + moveInput * currentSpeed * Time.fixedDeltaTime);
     }
