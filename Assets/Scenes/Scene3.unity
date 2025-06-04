@@ -3093,7 +3093,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 211cc5c4bfcab4cbfb46a24076e260a4, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.6
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -3333,6 +3333,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1280524511}
     m_Modifications:
+    - target: {fileID: -8587517786849531276, guid: d3c0ed7cbd44d7840af47b56fb0d1619, type: 3}
+      propertyPath: m_Volume
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 4134115550195989139, guid: d3c0ed7cbd44d7840af47b56fb0d1619, type: 3}
       propertyPath: m_Name
       value: Handel
@@ -4015,8 +4019,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Line
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 29c4116524b424f1b86d9eac7022a681, type: 2}
+  m_sharedMaterial: {fileID: 2114711702613250593, guid: 29c4116524b424f1b86d9eac7022a681, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4281,7 +4285,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireSound: {fileID: 8300000, guid: 93bb74b822fe84214a86c912ef4d02a2, type: 3}
   witchHitSound: {fileID: 8300000, guid: ff5890fd987fb4fddbe0b42cd45324ea, type: 3}
-  witchScreamSound: {fileID: 0}
+  witchScreamSound: {fileID: 8300000, guid: 6530432a17f1ae541b402d552e898e34, type: 3}
   requiredFirewood: 3
   potRenderer: {fileID: 675391022}
   fireSprite: {fileID: 21300000, guid: 19e0b26aeb09b6d4bb9cb436a6718816, type: 3}
@@ -5616,7 +5620,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 211cc5c4bfcab4cbfb46a24076e260a4, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.6
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -6171,8 +6175,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Name
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d3ca0f65474724877a41052590c98a87, type: 2}
+  m_sharedMaterial: {fileID: -8103169260945882392, guid: d3ca0f65474724877a41052590c98a87, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6598,7 +6602,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 211cc5c4bfcab4cbfb46a24076e260a4, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.6
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0
