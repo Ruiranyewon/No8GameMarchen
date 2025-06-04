@@ -14,4 +14,12 @@ public class BulletMover : MonoBehaviour
     {
         transform.position += transform.up * moveSpeed * Time.deltaTime;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("enemy"))
+        {
+            Destroy(gameObject);
+        }
+    }
 }

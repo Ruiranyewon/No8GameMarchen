@@ -131,6 +131,7 @@ public class PlayerMovement : MonoBehaviour
         if (rb == null) return;
         float currentSpeed = isRunning ? speed + runSpeed : speed;
         rb.MovePosition(rb.position + moveInput * currentSpeed * Time.fixedDeltaTime);
+        transform.rotation = Quaternion.identity;
     }
         public static bool CanSwitchTo(string characterName)
     {

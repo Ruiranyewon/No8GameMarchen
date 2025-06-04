@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WaterBomb Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 1275635392787232, guid: ab6891f5e3e61c54fb1b5a692cee6a19, type: 3}
+      propertyPath: m_TagString
+      value: WaterBullet
+      objectReference: {fileID: 0}
     - target: {fileID: 4820447579516924, guid: ab6891f5e3e61c54fb1b5a692cee6a19, type: 3}
       propertyPath: m_LocalScale.x
       value: 30
@@ -67,6 +71,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1275635392787232, guid: ab6891f5e3e61c54fb1b5a692cee6a19, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4973263218456478705}
+    - targetCorrespondingSourceObject: {fileID: 1275635392787232, guid: ab6891f5e3e61c54fb1b5a692cee6a19, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7157560782969683161}
+    - targetCorrespondingSourceObject: {fileID: 1275635392787232, guid: ab6891f5e3e61c54fb1b5a692cee6a19, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6828187127259021460}
   m_SourcePrefab: {fileID: 100100000, guid: ab6891f5e3e61c54fb1b5a692cee6a19, type: 3}
 --- !u!1 &5353617032198862903 stripped
 GameObject:
@@ -85,3 +95,65 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b62576d4bdff547df937bd6365b06e02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!58 &7157560782969683161
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5353617032198862903}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0014552324, y: 0.03929248}
+  serializedVersion: 2
+  m_Radius: 0.07999999
+--- !u!50 &6828187127259021460
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5353617032198862903}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

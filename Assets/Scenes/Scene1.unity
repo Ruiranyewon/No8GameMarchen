@@ -485,9 +485,10 @@ GameObject:
   - component: {fileID: 304030810}
   - component: {fileID: 304030809}
   - component: {fileID: 304030808}
+  - component: {fileID: 304030811}
   m_Layer: 0
   m_Name: GingerMan
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -604,6 +605,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &304030811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 304030807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f06fbca35bcce41cd842928e59c21ef5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gnomeType: 1
+  keyPrefab: {fileID: 0}
 --- !u!114 &411597630 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3276769577208644943, guid: 7b875093e4b964e83a1c8ae62b606750, type: 3}
@@ -1819,9 +1834,10 @@ GameObject:
   - component: {fileID: 698681949}
   - component: {fileID: 698681948}
   - component: {fileID: 698681947}
+  - component: {fileID: 698681950}
   m_Layer: 0
   m_Name: gnome_front_0
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1938,6 +1954,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &698681950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698681946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f06fbca35bcce41cd842928e59c21ef5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gnomeType: 0
+  keyPrefab: {fileID: 0}
 --- !u!114 &727229116 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3276769577208644943, guid: 7b875093e4b964e83a1c8ae62b606750, type: 3}
@@ -3686,7 +3716,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -3781,8 +3811,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f06fbca35bcce41cd842928e59c21ef5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gnomeType: 2
   keyPrefab: {fileID: 603933772889857117, guid: 3f9db97a7733a45d7a012b28cfe607a7, type: 3}
-  maxHits: 5
 --- !u!1 &1566187313
 GameObject:
   m_ObjectHideFlags: 0
@@ -3940,7 +3970,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 5353617032198862903, guid: fcd52c752a3d549f993f1694834fe124, type: 3}
-  bulletSpeed: 10
+  bulletSpeed: 150
   firePoint: {fileID: 1597476839}
   skillEffect: {fileID: 7540474685291860206, guid: 724d151229932ba47931fcc83c083470, type: 3}
   skillSound: {fileID: 8300000, guid: 1281ba773928a442fa084f5b64a59f3e, type: 3}
@@ -6582,7 +6612,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 1527682590948719085, guid: 7b9e4a5d723d143cf89b64ce03ac1499, type: 3}
-  bulletSpeed: 10
+  bulletSpeed: 150
   firePoint: {fileID: 4657624157807719240}
   skillEffect: {fileID: 3096923336240688081, guid: 50f1354827c77ef4b99c4dca0ee3411d, type: 3}
   skillSound: {fileID: 8300000, guid: 93bb74b822fe84214a86c912ef4d02a2, type: 3}

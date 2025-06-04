@@ -9,6 +9,8 @@ TagManager:
   - FirePot
   - Handel
   - Witch
+  - FireBullet
+  - WaterBullet
   layers:
   - Default
   - TransparentFX
