@@ -13,39 +13,100 @@ public class LeverScript : MonoBehaviour
     public CharacterDialogueTrigger dialogueTriggerAfterUnlock;
     public GameObject playerTrapped;
 
+    public Transform waterBarTransform;
+    private float holdTime = 0f;
+    private float maxHoldDuration = 6f;
+    private bool puzzleCompleteChecked = false;
+
     private int[] digits = new int[4];
     private int selectedIndex = 0;
     private bool isPuzzleActive = false;
     private PlayerMovement playerMovement;
 
+    private bool isWaterLever = false;
+
+    private bool playerInRange = false;
+
+    void Start()
+    {
+        isWaterLever = gameObject.name == "Lever_C";
+    }
+
     void Update()
     {
+        if (!isPuzzleActive && playerInRange && Input.GetKeyDown(KeyCode.F))
+        {
+            puzzleUI.SetActive(true);
+            for (int i = 0; i < 4; i++) digits[i] = 0;
+            selectedIndex = 0;
+            UpdateDisplay();
+            holdTime = 0f;
+            puzzleCompleteChecked = false;
+            if (waterBarTransform != null)
+                waterBarTransform.localScale = new Vector3(1, 0, 1);
+            isPuzzleActive = true;
+            playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+            if (playerMovement != null)
+                playerMovement.enabled = false;
+        }
+
         if (!isPuzzleActive) return;
 
-        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+        if (isWaterLever && !puzzleCompleteChecked)
         {
-            selectedIndex = (selectedIndex + 3) % 4; // move left
-            UpdateDisplay();
-        }
-        else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            selectedIndex = (selectedIndex + 1) % 4; // move right
-            UpdateDisplay();
-        }
-        else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            digits[selectedIndex] = (digits[selectedIndex] + 1) % 10;
-            UpdateDisplay();
-        }
-        else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            digits[selectedIndex] = (digits[selectedIndex] + 9) % 10; // decrement with wrap
-            UpdateDisplay();
+            if (Input.GetKey(KeyCode.Space))
+            {
+                holdTime += Time.deltaTime;
+                float fillRatio = Mathf.Clamp01(holdTime / maxHoldDuration);
+                if (waterBarTransform != null)
+                    waterBarTransform.localScale = new Vector3(1, fillRatio, 1);
+            }
+
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                puzzleCompleteChecked = true;
+                if (Mathf.Abs(holdTime - maxHoldDuration) <= 0.2f)
+                {
+                    Debug.Log("Water fill success!");
+                    CompletePuzzle();
+                }
+                else
+                {
+                    Debug.Log("Water fill failed!");
+                    puzzleUI.SetActive(false);
+                    if (playerMovement != null)
+                        playerMovement.enabled = true;
+                }
+            }
         }
 
-        if (digits[0] == 7 && digits[1] == 0 && digits[2] == 2 && digits[3] == 5)
+        if (!isWaterLever)
         {
-            CompletePuzzle();
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                selectedIndex = (selectedIndex + 3) % 4; // move left
+                UpdateDisplay();
+            }
+            else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                selectedIndex = (selectedIndex + 1) % 4; // move right
+                UpdateDisplay();
+            }
+            else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                digits[selectedIndex] = (digits[selectedIndex] + 1) % 10;
+                UpdateDisplay();
+            }
+            else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                digits[selectedIndex] = (digits[selectedIndex] + 9) % 10; // decrement with wrap
+                UpdateDisplay();
+            }
+
+            if (digits[0] == 7 && digits[1] == 0 && digits[2] == 2 && digits[3] == 5)
+            {
+                CompletePuzzle();
+            }
         }
     }
 
@@ -87,14 +148,7 @@ public class LeverScript : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            puzzleUI.SetActive(true);
-            for (int i = 0; i < 4; i++) digits[i] = 0;
-            selectedIndex = 0;
-            UpdateDisplay();
-            isPuzzleActive = true;
-            playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
-            if (playerMovement != null)
-                playerMovement.enabled = false;
+            playerInRange = true;
         }
     }
 
@@ -102,10 +156,7 @@ public class LeverScript : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            puzzleUI.SetActive(false);
-            isPuzzleActive = false;
-            if (playerMovement != null)
-                playerMovement.enabled = true;
+            playerInRange = false;
         }
     }
 }

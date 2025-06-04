@@ -32,7 +32,7 @@ public class EnemySpawner : MonoBehaviour
             {
                 GameObject toSpawn;
 
-                if (enemiesSpawned < 4)
+                if (enemiesSpawned < 3)
                 {
                     toSpawn = gingerbreadPrefab;
                 }

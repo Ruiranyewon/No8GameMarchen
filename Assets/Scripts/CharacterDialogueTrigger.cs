@@ -17,6 +17,7 @@ public class CharacterDialogueTrigger : MonoBehaviour
     private int index = 0;
     private bool isTyping = false;
     private bool dialogueStarted = false;
+    private bool playerInRange = false;
 
     void Start()
     {
@@ -30,7 +31,19 @@ public class CharacterDialogueTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && !dialogueStarted)
+        if (other.CompareTag("Player"))
+            playerInRange = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+            playerInRange = false;
+    }
+
+    void Update()
+    {
+        if (!dialogueStarted && playerInRange && Input.GetKeyDown(KeyCode.F))
         {
             dialogueStarted = true;
             isDialoguePlaying = true;
@@ -39,10 +52,6 @@ public class CharacterDialogueTrigger : MonoBehaviour
             PlayerMovement.canMove = false;
             StartCoroutine(TypeSentence());
         }
-    }
-
-    void Update()
-    {
         if (dialoguePanel.activeSelf && Input.GetKeyDown(KeyCode.Return))
         {
             if (isTyping)
