@@ -38,6 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -541,10 +542,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: When Hansel did not return, Gretel left the house to find Hansel. When
+  m_text: When Handel did not return, Gretel left the house to find Handel. When
     I got lost in the forest and regained my senses, I found myself in a strange
-    mansion. There was Hansel's pendant inside the mansion, and Gretel, who thought
-    there would be Hansel in the mansion, decided to go find Hansel.
+    mansion. There was Handel's pendant inside the mansion, and Gretel, who thought
+    there would be Handel in the mansion, decided to go find Handel.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d3ca0f65474724877a41052590c98a87, type: 2}
   m_sharedMaterial: {fileID: -8103169260945882392, guid: d3ca0f65474724877a41052590c98a87, type: 2}
@@ -717,6 +718,6 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1901513482}
   - {fileID: 151446620}
   - {fileID: 349976732}
-  - {fileID: 1901513482}

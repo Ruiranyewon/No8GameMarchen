@@ -5,6 +5,7 @@ public class SceneSwitch : MonoBehaviour
 {
     public void LoadScene1()
     {
+        Debug.Log("LoadScene1 called");
         SceneManager.LoadScene("Scene1");
     }
     public void LoadScene2()
