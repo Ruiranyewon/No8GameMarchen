@@ -96,6 +96,21 @@ public class IntroSequence : MonoBehaviour
         introText.alpha = 0f;
 
         
-        SceneManager.LoadScene("Scene1");
+        string currentScene = SceneManager.GetActiveScene().name;
+        if (currentScene == "IntroScene")
+        {
+            SceneManager.LoadScene("Scene1");
+        }
+        else if (currentScene == "Scene4")
+        {
+            yield return new WaitForSeconds(1f); // Optional pause before transition
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("Scene0");
+            asyncLoad.allowSceneActivation = false;
+
+            float waitTime = 2f; // additional time to hold before scene switch
+            yield return new WaitForSeconds(waitTime);
+
+            asyncLoad.allowSceneActivation = true;
+        }
     }
 }
