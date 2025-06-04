@@ -5132,6 +5132,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4585172731834192615, guid: ae158f9692eb14b0a9393417ef3bc1fe, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 78232f635bd764ffa954e53470024458, type: 2}
     - target: {fileID: 4820306495121201577, guid: ae158f9692eb14b0a9393417ef3bc1fe, type: 3}
       propertyPath: m_Name
       value: Marin
