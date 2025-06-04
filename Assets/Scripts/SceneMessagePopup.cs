@@ -41,8 +41,7 @@ public class SceneMessagePopup : MonoBehaviour
         if (player != null)
         {
             playerMovement = player.GetComponent<PlayerMovement>();
-            if (playerMovement != null)
-                playerMovement.enabled = false;
+            PlayerMovement.canMove = false;
         }
         StartCoroutine(TypeSentence());
     }
@@ -68,8 +67,7 @@ public class SceneMessagePopup : MonoBehaviour
                 {
                     messagePanel.SetActive(false);
                     dialogueText.text = "";
-                    if (playerMovement != null)
-                        playerMovement.enabled = true;
+                    PlayerMovement.canMove = true;
                     isDialoguePlaying = false;
                 }
             }

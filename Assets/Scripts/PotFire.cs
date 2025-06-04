@@ -17,6 +17,7 @@ public class PotFire : MonoBehaviour
             if (potRenderer != null && fireSprite != null)
             {
                 potRenderer.sprite = fireSprite;
+                gameObject.tag = "FirePot";
                 activated = true;
                 Debug.Log("Pot activated!");
             }
