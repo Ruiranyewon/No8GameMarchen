@@ -4,9 +4,12 @@ using System.Collections;
 
 public class DoorDarkenOnHandel : MonoBehaviour
 {
-    public string requiredTag = "Handel";        // 반드시 "Handel" 태그만 인식
+    public string requiredTag = "Handel";       // "Handel" 태그 캐릭터만 인식
     public string nextSceneName = "Scene4";
     public float fadeDuration = 2f;
+
+    public AudioClip doorSound;                 //  사운드 추가
+    private AudioSource audioSource;
 
     private SpriteRenderer spriteRenderer;
     private bool isPlayerInRange = false;
@@ -18,6 +21,10 @@ public class DoorDarkenOnHandel : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer == null)
             Debug.LogWarning("이 오브젝트에는 SpriteRenderer가 없습니다!");
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     void Update()
@@ -27,10 +34,14 @@ public class DoorDarkenOnHandel : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F))
         {
-            // "Handel" 태그일 경우에만 작동
             if (playerInRange.CompareTag(requiredTag))
             {
                 alreadyActivated = true;
+
+                // 소리 재생
+                if (doorSound != null)
+                    audioSource.PlayOneShot(doorSound);
+
                 StartCoroutine(FadeToBlackAndLoad());
             }
         }

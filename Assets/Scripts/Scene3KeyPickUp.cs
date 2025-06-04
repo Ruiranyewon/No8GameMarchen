@@ -1,9 +1,20 @@
 using UnityEngine;
+using System.Collections;
 
 public class Scene3KeyPickUp : MonoBehaviour
 {
     private bool playerInRange = false;
     private PlayerKeyPickUp currentPlayer = null;
+
+    public AudioClip pickupSound;
+    private AudioSource audioSource;
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+    }
 
     void Update()
     {
@@ -13,9 +24,19 @@ public class Scene3KeyPickUp : MonoBehaviour
             {
                 currentPlayer.hasKey = true;
                 Debug.Log("¿­¼è¸¦ ÁÖ¿ü½À´Ï´Ù!");
-                Destroy(gameObject);
+
+                if (pickupSound != null && audioSource != null)
+                    audioSource.PlayOneShot(pickupSound);
+
+                StartCoroutine(DestroyAfterDelay(0.3f));
             }
         }
+    }
+
+    IEnumerator DestroyAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Destroy(gameObject);
     }
 
     void OnTriggerEnter2D(Collider2D other)

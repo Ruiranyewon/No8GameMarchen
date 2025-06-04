@@ -34,6 +34,8 @@ public class FInteractDialogue : MonoBehaviour
     private PlayerMovement playerMovement;
     private Animator playerAnimator;
 
+    private bool isPrison => gameObject.name == "prison";
+
     void Start()
     {
         dialoguePanel.SetActive(false);
@@ -43,9 +45,13 @@ public class FInteractDialogue : MonoBehaviour
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
         {
-            player = playerObj.transform;
-            playerMovement = playerObj.GetComponent<PlayerMovement>();
-            playerAnimator = playerObj.GetComponent<Animator>();
+            // prison이면 이름 무관, 그 외는 Marin만
+            if (isPrison || playerObj.name == "Marin")
+            {
+                player = playerObj.transform;
+                playerMovement = playerObj.GetComponent<PlayerMovement>();
+                playerAnimator = playerObj.GetComponent<Animator>();
+            }
         }
     }
 
@@ -56,7 +62,8 @@ public class FInteractDialogue : MonoBehaviour
         float dist = Vector2.Distance(transform.position, player.position);
         if ((playerInRange || dist <= activationRange) && !dialogueStarted && !dialogueFinished && !isAnyDialogueActive)
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.F) &&
+                (isPrison || player.name == "Marin"))
             {
                 StartDialogue();
             }
@@ -64,6 +71,8 @@ public class FInteractDialogue : MonoBehaviour
 
         if (dialogueStarted && dialoguePanel.activeSelf && Input.GetKeyDown(KeyCode.Return))
         {
+            if (!isPrison && !DialogueSpriteSwitcher.canProceed) return;
+
             if (isTyping)
             {
                 StopAllCoroutines();
@@ -73,6 +82,8 @@ public class FInteractDialogue : MonoBehaviour
             else
             {
                 index++;
+                DialogueSpriteSwitcher.canProceed = false;
+
                 if (index < lines.Length)
                 {
                     StartCoroutine(TypeSentence());
@@ -90,6 +101,8 @@ public class FInteractDialogue : MonoBehaviour
         isAnyDialogueActive = true;
         dialogueStarted = true;
         dialoguePanel.SetActive(true);
+
+        // 무조건 정지 처리 (prison이든 Marin이든)
         if (playerMovement != null)
             playerMovement.enabled = false;
         if (playerAnimator != null)
@@ -134,7 +147,8 @@ public class FInteractDialogue : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") &&
+            (isPrison || other.name == "Marin"))
         {
             playerInRange = true;
         }
@@ -142,7 +156,8 @@ public class FInteractDialogue : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") &&
+            (isPrison || other.name == "Marin"))
         {
             playerInRange = false;
         }

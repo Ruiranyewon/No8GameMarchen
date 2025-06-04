@@ -14,7 +14,7 @@ public class WitchAINew : MonoBehaviour
     private bool isActivated = false;
     private bool isRushing = false;
     private bool isPausing = false;
-    private bool isStopped = false; //  외부에서 완전 정지 시킬 때 사용
+    private bool isStopped = false;
 
     private Transform player;
     private Animator anim;
@@ -26,6 +26,12 @@ public class WitchAINew : MonoBehaviour
     private float originalMoveSpeed;
     private float originalRushSpeed;
 
+    public AudioClip rushSound;
+    public AudioClip bgmOnFirstAppear; //  마녀 등장 시 한 번만 재생할 음악
+    private bool bgmPlayed = false;    // 중복 방지용 플래그
+
+    private AudioSource audioSource;
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
@@ -35,6 +41,10 @@ public class WitchAINew : MonoBehaviour
         originalMoveSpeed = moveSpeed;
         originalRushSpeed = rushSpeed;
 
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+
         StartCoroutine(RushRoutine());
     }
 
@@ -42,7 +52,6 @@ public class WitchAINew : MonoBehaviour
     {
         if (isStopped) return;
 
-        // 현재 활성화된 플레이어 계속 추적
         GameObject currentPlayer = GameObject.FindGameObjectWithTag("Player");
         if (currentPlayer != null)
             player = currentPlayer.transform;
@@ -50,14 +59,23 @@ public class WitchAINew : MonoBehaviour
         if (!isActivated)
         {
             if (FirewoodManager.firewoodCount >= requiredFirewoodCount)
+            {
                 isActivated = true;
+
+                // 마녀 등장 음악 한 번만 재생
+                if (!bgmPlayed && bgmOnFirstAppear != null)
+                {
+                    audioSource.clip = bgmOnFirstAppear;
+                    audioSource.loop = true;
+                    audioSource.Play();
+                    bgmPlayed = true;
+                }
+            }
             else
                 return;
         }
 
-        if (player == null) return;
-
-        if (isPausing) return;
+        if (player == null || isPausing) return;
 
         if (isRushing)
         {
@@ -112,13 +130,15 @@ public class WitchAINew : MonoBehaviour
             isPausing = false;
             isRushing = true;
 
+            if (rushSound != null && audioSource != null)
+                audioSource.PlayOneShot(rushSound);
+
             yield return new WaitForSeconds(rushDuration);
 
             isRushing = false;
         }
     }
 
-    // 외부에서 마녀를 멈추고 싶을 때 호출
     public void StopMovement()
     {
         isStopped = true;
@@ -126,7 +146,6 @@ public class WitchAINew : MonoBehaviour
         isPausing = false;
     }
 
-    // 외부에서 다시 살리고 싶으면 이 함수로!
     public void ResumeMovement()
     {
         isStopped = false;
