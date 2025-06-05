@@ -7,51 +7,46 @@ public class EnemySpawner : MonoBehaviour
     public GameObject gingerbreadPrefab;
     public GameObject sugarGnomePrefab;
     public GameObject bossGnomePrefab;
+    public GameObject chiliTrapped;
+    private bool chiliRescued = false;
+    private bool postRescueSpawned = false;
 
     public float spawnInterval = 5f;
-    public int totalEnemiesToSpawn = 20;
     public Vector2 spawnAreaSize = new Vector2(600f, 400f);
 
-    private int enemiesSpawned = 0;
     private float timer = 0f;
-    private float elapsedTime = 0f;
 
     void Update()
     {
-        if (enemiesSpawned > totalEnemiesToSpawn)
-            return;
+        if (chiliTrapped != null && !chiliRescued && !chiliTrapped.activeInHierarchy)
+        {
+            chiliRescued = true;
+        }
 
         timer += Time.deltaTime;
-        elapsedTime += Time.deltaTime;
 
         if (timer >= spawnInterval)
         {
             timer = 0f;
 
-            if (enemiesSpawned < totalEnemiesToSpawn)
+            if (!chiliRescued)
             {
-                GameObject toSpawn;
-
-                if (enemiesSpawned < 3)
-                {
-                    toSpawn = gingerbreadPrefab;
-                }
-                else if (elapsedTime >= 20f)
-                {
-                    toSpawn = Random.value < 0.5f ? gingerbreadPrefab : sugarGnomePrefab;
-                }
-                else
-                {
-                    toSpawn = gingerbreadPrefab;
-                }
-
-                Instantiate(toSpawn, GetRandomPosition(), Quaternion.identity);
-                enemiesSpawned++;
+                // Before chili is rescued, spawn only gingerbread
+                Instantiate(gingerbreadPrefab, GetRandomPosition(), Quaternion.identity);
             }
-            else if (enemiesSpawned == totalEnemiesToSpawn)
+            else if (!postRescueSpawned)
             {
+                // After chili is rescued, spawn 2 sugar gnomes and 1 boss gnome
+                Instantiate(sugarGnomePrefab, GetRandomPosition(), Quaternion.identity);
+                Instantiate(sugarGnomePrefab, GetRandomPosition(), Quaternion.identity);
                 Instantiate(bossGnomePrefab, GetRandomPosition(), Quaternion.identity);
-                enemiesSpawned++;
+                postRescueSpawned = true;
+            }
+            else
+            {
+                // After post-rescue spawn, spawn gingerbread or sugar gnome randomly (excluding boss)
+                GameObject toSpawn = Random.value < 0.5f ? gingerbreadPrefab : sugarGnomePrefab;
+                Instantiate(toSpawn, GetRandomPosition(), Quaternion.identity);
             }
         }
     }

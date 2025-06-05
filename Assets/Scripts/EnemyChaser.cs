@@ -2,12 +2,18 @@ using UnityEngine;
 
 public class EnemyChaser : MonoBehaviour
 {
+    private PlayerMovement playerMovement;
     public float moveSpeed = 2f;
     private Transform player;
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player")?.transform;
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            player = playerObj.transform;
+            playerMovement = playerObj.GetComponent<PlayerMovement>();
+        }
     }
 
     void Update()
@@ -21,7 +27,17 @@ public class EnemyChaser : MonoBehaviour
                 return;
         }
 
+        if (Time.timeScale == 0f)
+            return;
+
+        if (playerMovement != null && !PlayerMovement.canMove)
+        {
+            return;
+        }
+
         Vector2 direction = (player.position - transform.position).normalized;
         transform.position += (Vector3)(direction * moveSpeed * Time.deltaTime);
+
+        transform.rotation = Quaternion.identity;
     }
 }

@@ -26,6 +26,7 @@ public class SceneMessagePopup : MonoBehaviour
 
     void Start()
     {
+        CharacterDialogueTrigger.isDialoguePlaying = false;
         isDialoguePlaying = true;
         messagePanel.SetActive(false); // Hide initially
         dialogueText.text = "";

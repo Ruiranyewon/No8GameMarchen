@@ -73,9 +73,11 @@ public class LeverScript : MonoBehaviour
                 else
                 {
                     Debug.Log("Water fill failed!");
-                    puzzleUI.SetActive(false);
-                    if (playerMovement != null)
-                        playerMovement.enabled = true;
+                    holdTime = 0f;
+                    puzzleCompleteChecked = false;
+                    if (waterBarTransform != null)
+                        waterBarTransform.localScale = new Vector3(1, 0, 1);
+                    // Do not deactivate puzzleUI or re-enable movement yet
                 }
             }
         }

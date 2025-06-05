@@ -1,11 +1,15 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 
 public class CharacterDialogueTrigger : MonoBehaviour
 {
     public static bool isDialoguePlaying = false;
+
+    [SerializeField] private GameObject bifurcation;
+    [SerializeField] private int sceneDialogueLimit = 12;
 
     private PlayerMovement playerMovement;
     public GameObject dialoguePanel;
@@ -27,6 +31,11 @@ public class CharacterDialogueTrigger : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
             playerMovement = player.GetComponent<PlayerMovement>();
+
+        if (SceneManager.GetActiveScene().name != "Scene1")
+        {
+            bifurcation = null;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -57,27 +66,30 @@ public class CharacterDialogueTrigger : MonoBehaviour
             if (isTyping)
             {
                 StopAllCoroutines();
-                dialogueText.text = lines[index].sentence;
+                if (index < lines.Length)
+                {
+                    dialogueText.text = lines[index].sentence;
+                }
                 isTyping = false;
             }
             else
             {
                 index++;
-                if (index < lines.Length)
+
+                int dialogueLimit = sceneDialogueLimit;
+                if (bifurcation != null && !bifurcation.activeInHierarchy)
+                    dialogueLimit = lines.Length;
+
+                if (index < dialogueLimit)
                 {
-                    StartCoroutine(TypeSentence());
+                    if (index < lines.Length)
+                    {
+                        StartCoroutine(TypeSentence());
+                    }
                 }
                 else
                 {
-                    dialoguePanel.SetActive(false);
-                    dialogueText.text = "";
-                    index = 0;
-                    dialogueStarted = false;
-
-                    isDialoguePlaying = false;
-                    SceneMessagePopup.isDialoguePlaying = false;
-
-                    PlayerMovement.canMove = true;
+                    EndDialogue();
                 }
             }
         }
@@ -98,10 +110,17 @@ public class CharacterDialogueTrigger : MonoBehaviour
             nameText.color = Color.white;
         }
 
+        string fullSentence = lines[index].sentence;
         dialogueText.text = "";
-        foreach (char letter in lines[index].sentence.ToCharArray())
+
+        for (int i = 0; i < fullSentence.Length; i++)
         {
-            dialogueText.text += letter;
+            dialogueText.text += fullSentence[i];
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                dialogueText.text = fullSentence;
+                break;
+            }
             yield return new WaitForSeconds(typingSpeed);
         }
         isTyping = false;
@@ -118,5 +137,17 @@ public class CharacterDialogueTrigger : MonoBehaviour
             PlayerMovement.canMove = false;
             StartCoroutine(TypeSentence());
         }
+    }
+    void EndDialogue()
+    {
+        dialoguePanel.SetActive(false);
+        dialogueText.text = "";
+        index = 0;
+        dialogueStarted = false;
+
+        isDialoguePlaying = false;
+        SceneMessagePopup.isDialoguePlaying = false;
+
+        PlayerMovement.canMove = true;
     }
 }

@@ -6,7 +6,6 @@ public class BGMPlayer : MonoBehaviour
     public AudioClip bgmClip1;
     public float fadeDuration = 2f;
     private AudioSource audioSource;
-    private bool isPlayingFirst = true;
 
     void Start()
     {
