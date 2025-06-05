@@ -13,6 +13,8 @@ public class PotFire : MonoBehaviour
     public Sprite fireSprite;
     public Light2D fireLight;
 
+    public GameObject firePromptUI;
+
     private bool activated = false;
     private bool playerInRange = false;
     private GameObject currentPlayer;
@@ -47,6 +49,13 @@ public class PotFire : MonoBehaviour
 
                 if (fireSound != null)
                     audioSource.PlayOneShot(fireSound);
+
+                // firePromptUI 직접 끄기 (활성화 상태일 경우만)
+                if (firePromptUI != null && firePromptUI.activeSelf)
+                {
+                    firePromptUI.SetActive(false);
+                    Debug.Log("firePromptUI turned off by PotFire.");
+                }
             }
         }
     }

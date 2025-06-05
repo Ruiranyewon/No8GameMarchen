@@ -36,6 +36,8 @@ public class FInteractDialogue : MonoBehaviour
 
     private bool isPrison => gameObject.name == "prison";
 
+
+
     void Start()
     {
         dialoguePanel.SetActive(false);
@@ -126,6 +128,13 @@ public class FInteractDialogue : MonoBehaviour
             playerMovement.enabled = true;
         if (playerAnimator != null)
             playerAnimator.speed = 1f;
+
+        if (lines.Length > 0 &&
+            lines[lines.Length - 1].sentence.Trim() == "(Logs are scattered around the map)" &&
+            FirewoodManager.instance != null)
+        {
+            FirewoodManager.instance.UpdateFirewoodText();
+        }
     }
 
     IEnumerator TypeSentence()
