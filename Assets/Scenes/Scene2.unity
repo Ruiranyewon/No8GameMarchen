@@ -3703,7 +3703,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3834501ddcc0e46cf8f97a64a088652d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 3948960838843015988}
+  target: {fileID: 861841843}
   offset: {x: 0, y: 0, z: -10}
 --- !u!114 &861841846
 MonoBehaviour:
@@ -7354,7 +7354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa51c81a2c0a64cf7b4816d51736d6ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraFollow: {fileID: 0}
+  cameraFollow: {fileID: 861841845}
   players:
   - {fileID: 7298641511883656807}
   - {fileID: 6687624565072797418}

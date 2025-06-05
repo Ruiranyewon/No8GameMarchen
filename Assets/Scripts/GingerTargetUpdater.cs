@@ -3,7 +3,7 @@ using Pathfinding;
 
 public class GingerTargetUpdater : MonoBehaviour
 {
-    public GameObject playersGroup; // "Players" ¿ÀºêÁ§Æ®¸¦ Inspector¿¡¼­ ¿¬°á
+    public GameObject playersGroup; // "Players" ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Inspectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private AIDestinationSetter setter;
 
     void Start()
@@ -13,6 +13,12 @@ public class GingerTargetUpdater : MonoBehaviour
 
     void Update()
     {
+        if (playersGroup == null)
+        {
+            playersGroup = GameObject.Find("Players");
+            if (playersGroup == null) return;
+        }
+
         foreach (Transform child in playersGroup.transform)
         {
             if (child.gameObject.activeSelf)
