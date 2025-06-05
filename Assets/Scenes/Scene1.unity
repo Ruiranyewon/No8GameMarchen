@@ -3025,6 +3025,52 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1343671760
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1343671762}
+  - component: {fileID: 1343671761}
+  m_Layer: 0
+  m_Name: BGMPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1343671761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343671760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2801551ab7ccf486cbe28b2bf12a8c42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmClip1: {fileID: 8300000, guid: 68020a7398d894b3cbc9c14097e213e3, type: 3}
+  fadeDuration: 2
+--- !u!4 &1343671762
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343671760}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -20.723057, y: 70.62235, z: -1.460379}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1385100362 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3276769577208644943, guid: 7b875093e4b964e83a1c8ae62b606750, type: 3}
@@ -5932,6 +5978,10 @@ PrefabInstance:
       propertyPath: cameraFollow
       value: 
       objectReference: {fileID: 1092466210}
+    - target: {fileID: 3665378882310155903, guid: 9399204fdb0c34c23a21dec736a04dda, type: 3}
+      propertyPath: deathSound
+      value: 
+      objectReference: {fileID: 8300000, guid: de8abbf1ef672431796302a8ff25c6e8, type: 3}
     - target: {fileID: 4353824866170106353, guid: 9399204fdb0c34c23a21dec736a04dda, type: 3}
       propertyPath: m_LocalPosition.x
       value: 240
@@ -6735,3 +6785,4 @@ SceneRoots:
   - {fileID: 7292413032507897205}
   - {fileID: 1759573060}
   - {fileID: 1552794650}
+  - {fileID: 1343671762}
