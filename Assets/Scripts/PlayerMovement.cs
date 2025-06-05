@@ -155,5 +155,13 @@ public class PlayerMovement : MonoBehaviour
         return currentStamina <= 0f;
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("플레이어가 적에게 부딪혔습니다. 게임 오버!");
+            SceneManager.LoadScene("GameOver"); // Replace with your actual scene name
+        }
+    }
 
 }
