@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -30,6 +31,10 @@ public class PlayerMovement : MonoBehaviour
         if (rb == null)
         {
             Debug.LogError("[PlayerMovement] Rigidbody2D component is missing on the 'Players' GameObject. Please add one in the Inspector.");
+        }
+        if (rb != null)
+        {
+            rb.freezeRotation = true;
         }
         currentAnimator = GetComponentInChildren<Animator>();
         currentStamina = maxStamina;
@@ -133,7 +138,7 @@ public class PlayerMovement : MonoBehaviour
         rb.MovePosition(rb.position + moveInput * currentSpeed * Time.fixedDeltaTime);
         transform.rotation = Quaternion.identity;
     }
-        public static bool CanSwitchTo(string characterName)
+    public static bool CanSwitchTo(string characterName)
     {
         switch (characterName)
         {
@@ -165,3 +170,5 @@ public class PlayerMovement : MonoBehaviour
     }
 
 }
+
+

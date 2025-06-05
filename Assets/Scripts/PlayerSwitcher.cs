@@ -20,7 +20,11 @@ public class PlayerSwitcher : MonoBehaviour
             int nextIndex = (currentIndex + 1) % players.Length;
             string characterName = players[nextIndex].name;
 
-            if (PlayerMovement.CanSwitchTo(characterName))
+            if (PlayerMovement.CanSwitchTo(characterName) &&
+                (characterName != "Marin" || (GameObject.Find("MarinTrapped") == null || !GameObject.Find("MarinTrapped").activeInHierarchy)) &&
+                (characterName != "Chili" || 
+                 ((GameObject.Find("MarinTrapped") == null || !GameObject.Find("MarinTrapped").activeInHierarchy) &&
+                  (GameObject.Find("ChiliTrapped") == null || !GameObject.Find("ChiliTrapped").activeInHierarchy))))
             {
                 currentIndex = nextIndex;
                 ActivateOnly(currentIndex);
