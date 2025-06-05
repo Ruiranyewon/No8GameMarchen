@@ -149,4 +149,11 @@ public class PlayerMovement : MonoBehaviour
                 return true;
         }
     }
+
+    public bool IsStaminaZero()
+    {
+        return currentStamina <= 0f;
+    }
+
+
 }
